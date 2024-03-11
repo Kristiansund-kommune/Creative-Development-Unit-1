@@ -1,3 +1,5 @@
 # GreenTechSee 2024 - Team GreenTaxi
 
-Se https://github.com/Kristiansund-kommune/GreenTechSee-Team-GreenTaxi-2024
+<img src="logo.png" style="max-width: 300px" />
+
+Her kommer Team GreenTaxi sitt bidrag til GreenTechSee 2024.
