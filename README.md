@@ -2,6 +2,23 @@
 
 <img src="logo.png" style="max-width: 300px" />
 
+<h1>Om GreenTaxi</h1>
+
+<h2>Hege Kristin Sjåvik Hånde</h2>
+<p>Hege er Head of UX i Team GreenTaxi, hun har også full kontroll på teamet gjennom rollen sin som teamlead, hun elsker Balsamico og hater ostepop</p>
+
+<h2>Ole Morten Didriksen</h2>
+<p>Ole Morten er Head of development i Team GreenTaxi, han elsker CSS og hater smånisser som folk har i hagen.</p>
+
+<h2>Alida Hjelljord</h2>
+<p>Alida er Head of integrations i Team GreenTaxi, hun elsker gamle episoder av Jepardy på TV2 og hater klissete bokser når hun panter</p>
+
+<h2>Oda B. Skjølsvold</h2>
+<p>Oda er Head of Projectmanagement i Team GreenTaxi, hun elsker småfly av fra tidlig -90-tall og hater katter.</p>
+
+<h2>Erik Ingebrigtsen</h2>
+<p>Erik er Head of Presentations i Team GreenTaxi, han elsker kattepuser, men er ekstremt allergisk mot de.</p>
+
 <h1>SafeHaven</h1>
 
 <h2>Om SafeHaven</h2>
