@@ -52,10 +52,10 @@
 
 <h2>Hvordan Bruke SafeHaven</h2>
 <ol>
-  <li><strong>Opprette Konto:</strong> Start appen og følg instruksjonene for å opprette en ny brukerkonto.</li>
-  <li><strong>Tilpasse Profilen:</strong> Legg inn informasjon om din lokasjon, familiestørrelse, og eventuelle spesifikke behov for å tilpasse beredskapsplanene.</li>
-  <li><strong>Utforske Ressurser:</strong> Naviger gjennom ressursbiblioteket for å lære mer om beredskap og nødrespons.</li>
-  <li><strong>Aktivere Varsler:</strong> Slå på varslinger for å motta umiddelbare advarsler om potensielle trusler i ditt område.</li>
+  <li><strong>Opprette konto:</strong> Start appen og følg instruksjonene for å opprette en ny brukerkonto.</li>
+  <li><strong>Tilpasse profilen:</strong> Legg inn informasjon om din lokasjon, familiestørrelse, og eventuelle spesifikke behov for å tilpasse beredskapsplanene.</li>
+  <li><strong>Utforske ressurser:</strong> Naviger gjennom ressursbiblioteket for å lære mer om beredskap og nødrespons.</li>
+  <li><strong>Aktivere varsler:</strong> Slå på varslinger for å motta umiddelbare advarsler om potensielle trusler i ditt område.</li>
   <li><strong>Delta i Community:</strong> Besøk community-seksjonen for å dele og motta råd og støtte fra andre brukere.</li>
 </ol>
 
