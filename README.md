@@ -4,6 +4,9 @@
 
 <h1>Om GreenTaxi</h1>
 
+![GreenTaxi](https://github.com/Kristiansund-kommune/GreenTechSee-Team-GreenTaxi-2024/assets/28563616/25a85b9d-6e15-4390-9f89-d66bcb0de24b)
+
+
 <h2>Hege Kristin Sjåvik Hånde</h2>
 <p>Hege er Head of UX i Team GreenTaxi, hun har også full kontroll på teamet gjennom rollen sin som teamlead, hun elsker Balsamico og hater ostepop</p>
 
