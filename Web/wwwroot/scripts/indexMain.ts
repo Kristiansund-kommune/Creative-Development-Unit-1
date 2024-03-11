@@ -1,14 +1,17 @@
 import "@/core";
 import { createApp } from "vue";
 import FloatingVue from "floating-vue";
-import { createRouter, createWebHistory } from "vue-router";
+import {createRouter, createWebHistory, RouteRecordRaw} from "vue-router";
 import NotFound from "@/scripts/notFound.vue";
 import Index from "@/scripts/index.vue";
 import Layout from "@/scripts/layout.vue";
+import Main from "@/scripts/Main.vue";
 
-const routes = [
+
+const routes : RouteRecordRaw[] = [
 	{ path: "/:pathMatch(.*)", component: NotFound },
-	{ path: "/", component: Index }
+	{ path: "/", component: Index },
+	{ path: "/main", component: Main}
 ];
 
 const router = createRouter({
