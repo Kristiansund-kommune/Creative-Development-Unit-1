@@ -24,6 +24,8 @@
 
 <h1>SafeHaven</h1>
 
+<strong>SafeHaven utvikles som en webapp i MVP-fasen og blir videreutviklet som en app til telefonen. README fokuserer på fremtidig løsning
+
 <h2>Om SafeHaven</h2>
 <p>SafeHaven er en beredskaps- og nødresponsapp designet for å gi enkeltpersoner, familier, og samfunn verktøyene de trenger for å forberede seg på, håndtere, og komme seg etter nødsituasjoner. Ved å kombinere brukervennlig teknologi med omfattende beredskapsressurser, sikter SafeHaven mot å styrke brukere med kunnskap og verktøy for å forbedre sikkerheten og beredskapen.</p>
 
