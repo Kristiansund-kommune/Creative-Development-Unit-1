@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="nb">
+<head>
+	<meta charset="utf-8">
+	<title>GreenTaxi</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	@inject Microsoft.Extensions.Configuration.IConfiguration configuration
+	@{
+		var buildDateAttr = typeof(Web.Code.BugfixedTypeScriptClientGenerator).Assembly.GetCustomAttributes(typeof(Core.BuildDateAttribute), true).FirstOrDefault() as Core.BuildDateAttribute;
+		var date = buildDateAttr != null ? buildDateAttr.DateTime : (DateTime?)null;
+		Context.Items["BuildNumber"] = (date == null ? DateTime.Now : date).Value.ToString("yyyyMMddHHmmss");
+	}
+	<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?c=@(Context.Items["BuildNumber"])">
+	<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?c=@(Context.Items["BuildNumber"])">
+	<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?c=@(Context.Items["BuildNumber"])">
+	<link rel="manifest" href="/images/site.webmanifest?c=@(Context.Items["BuildNumber"])">
+	@{
+		var isDevelopment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development" && configuration["UsePreBuiltClientScriptsInDev"]?.ToLowerInvariant() != "true";
+		if (!isDevelopment)
+		{
+			@* if prod *@
+			@* for production så kompileres alt i én css fil pga vite.config.js cssCodeSplit false *@
+			<link rel="stylesheet" href="/dist/assets/style.css?c=@(Context.Items["BuildNumber"])">
+		}
+	}
+</head>
+<body>
+	@RenderBody()
+	<mini-profiler start-hidden="true" />
+</body>
+</html>

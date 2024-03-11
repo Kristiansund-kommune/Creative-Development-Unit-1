@@ -1,0 +1,8 @@
+@page
+@model Web.Pages.IndexModel
+@{
+}
+
+@{
+	await Html.RenderPartialAsync("VueEntrypointPartial", "scripts/indexMain.ts");
+}

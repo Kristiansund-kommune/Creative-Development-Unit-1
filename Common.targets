@@ -1,0 +1,28 @@
+<Project>
+	<PropertyGroup>
+		<NoWarn>CS1998;CA1031;ENC0021;ENC0023;ENC0033;ENC0049;ENC0050</NoWarn>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+	</PropertyGroup>
+
+	<Target Name="ClientBuild" BeforeTargets="BeforePublish">
+		<Exec Command="npm install" />
+		<Exec Command="npm run build" />
+	</Target>
+
+	<ItemGroup>
+		<AssemblyAttribute Include="Core.BuildDateAttribute">
+			<_Parameter1>$([System.DateTime]::UtcNow.ToString("yyyyMMddHHmmss"))</_Parameter1>
+		</AssemblyAttribute>
+	</ItemGroup>
+
+	<!-- https://github.com/dotnet/sdk/issues/1458#issuecomment-420456386 -->
+	<Target Name="_ResolveCopyLocalNuGetPackagePdbsAndXml" Condition="$(CopyLocalLockFileAssemblies) == true" AfterTargets="ResolveReferences">
+		<ItemGroup>
+			<ReferenceCopyLocalPaths Include="@(ReferenceCopyLocalPaths->'%(RootDir)%(Directory)%(Filename).pdb')" Condition="'%(ReferenceCopyLocalPaths.NuGetPackageId)' != '' and Exists('%(RootDir)%(Directory)%(Filename).pdb')" />
+			<ReferenceCopyLocalPaths Include="@(ReferenceCopyLocalPaths->'%(RootDir)%(Directory)%(Filename).xml')" Condition="'%(ReferenceCopyLocalPaths.NuGetPackageId)' != '' and Exists('%(RootDir)%(Directory)%(Filename).xml')" />
+		</ItemGroup>
+	</Target>
+</Project>
