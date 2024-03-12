@@ -20,14 +20,9 @@ namespace Core.Concepts.Entities
         [Required]
         public DateTime RegistrationDate { get; set; }
 
-        [Required]
-        public long CurrentPoints { get; set; }
+        public List<Bike>? Bikes { get; set; }
 
-		[NotMapped]
-        public List<Bike> Bikes { get; set; }
-
-        [NotMapped]
-        public string Level { get; set; }
+        public UserStats? Stats { get; set; }
 
     }
 }

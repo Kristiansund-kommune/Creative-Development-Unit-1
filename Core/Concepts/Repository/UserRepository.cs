@@ -22,13 +22,16 @@ namespace Core.Concepts.Repository
 
 		public async Task<User?> GetUserById(int id)
 		{
-
-			return await _context.Users.FindAsync(id);
+			return await _context.Users
+				.Include(e => e.Bikes)
+				.FirstOrDefaultAsync(x => x.Id == id);
 		}
 
 		public async Task<User?> GetUserByEmail(string email)
 		{
-			return await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+			return await _context.Users
+				.Include(e => e.Bikes)
+				.FirstOrDefaultAsync(u => u.Email == email);
 		}
 
 		protected virtual void Dispose(bool disposing)

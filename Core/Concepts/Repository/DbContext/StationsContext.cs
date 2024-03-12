@@ -13,6 +13,7 @@ public class StationsContext : DbContext
 	public DbSet<UserLevel> Levels { get; set; }
 	public DbSet<BikeStationDock> Docks { get; set; }
 	public DbSet<Route> Routes { get; set; }
+	public DbSet<UserStats> UserStats { get; set; }
 
 
 
@@ -24,5 +25,6 @@ public class StationsContext : DbContext
 		modelBuilder.Entity<UserLevel>().ToTable("Levels");
 		modelBuilder.Entity<Route>().ToTable("Routes");
 		modelBuilder.Entity<BikeStationDock>().ToTable("Docks");
+		modelBuilder.Entity<UserStats>().ToTable("UserStats");
 	}
 }
