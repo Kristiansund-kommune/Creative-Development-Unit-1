@@ -2,27 +2,17 @@ namespace Core.Concepts;
 
 public static class ExperienceCalculation
 {
-	private const double BaseExpPerMile = 10;
-	private const double BaseExpPerMinute = 5;
-
-	public static double CalculateTotalEXP(double elevationGain, double averageSpeed, double distance, double duration)
+	public static double CalculateTotalEXP(double elevationGain, double distance, double duration, int count)
 	{
 
-		// Calculate elevation gain adjustment factor
-		double elevationGainAdjustment = 1 + (elevationGain / 100.0 * 0.01);
+		double elevation = elevationGain / count;
+		double durationTrans = duration / count;
+		double distanceTrans = distance / count;
 
-		// Calculate average speed adjustment factor
-		double averageSpeedAdjustment = 1;
-		if (averageSpeed > 15)
-		{
-			averageSpeedAdjustment = 1.2;
-		}
-
-		// Calculate total EXP earned
-		double totalExp = (BaseExpPerMile * distance * elevationGainAdjustment) +
-		                  (BaseExpPerMinute * duration * averageSpeedAdjustment);
-
-		return totalExp;
+		double totalExperience = (elevation * 0.5 + distanceTrans * 0.1 + durationTrans * 0.3) / count;
+		// Scale the total experience to fit within the range 0 to 100000
+		double scaledExperience = (totalExperience / 100) * 100000;
+		return scaledExperience;
 	}
 
 

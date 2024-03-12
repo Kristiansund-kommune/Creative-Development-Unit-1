@@ -115,15 +115,15 @@ public static class DbInitializer
         var level = new UserLevel[]
         {
 	        new UserLevel{Title="Newcomer" , RequiredPoints = 0},
-	        new UserLevel{Title="Apprentice", RequiredPoints = 1000},
-	        new UserLevel{Title="Journeyman", RequiredPoints = 5000},
-	        new UserLevel{Title="Specialist", RequiredPoints = 10000},
-	        new UserLevel{Title="Adept", RequiredPoints = 25000},
-	        new UserLevel{Title="Master", RequiredPoints = 100000},
-	        new UserLevel{Title="Prodigy", RequiredPoints = 250000},
-	        new UserLevel{Title="Elite", RequiredPoints = 1000000},
-	        new UserLevel{Title="Champion", RequiredPoints = 2500000},
-	        new UserLevel{Title="Legend", RequiredPoints = 1000000},
+	        new UserLevel{Title="Apprentice", RequiredPoints = 100},
+	        new UserLevel{Title="Journeyman", RequiredPoints = 500},
+	        new UserLevel{Title="Specialist", RequiredPoints = 1000},
+	        new UserLevel{Title="Adept", RequiredPoints = 2500},
+	        new UserLevel{Title="Master", RequiredPoints = 5000},
+	        new UserLevel{Title="Prodigy", RequiredPoints = 10000},
+	        new UserLevel{Title="Elite", RequiredPoints = 20000},
+	        new UserLevel{Title="Champion", RequiredPoints = 50000},
+	        new UserLevel{Title="Legend", RequiredPoints = 100000},
         };
         foreach (UserLevel e in level)
         {

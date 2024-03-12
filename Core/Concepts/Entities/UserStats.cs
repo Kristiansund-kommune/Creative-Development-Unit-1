@@ -18,7 +18,9 @@ public class UserStats
 	public int LevelId { get; set; }
 	public int NumberOfRides { get; set; }
 	public double TotalDistance { get; set; }
-	public double TotalTime { get; set; }
+	public int TotalTime { get; set; }
+	public double EvaluationTotal { get; set; }
+
 	public long CurrentPoints { get; set; }
 	[NotMapped]
 	public bool IsNewLevel { get; set; }

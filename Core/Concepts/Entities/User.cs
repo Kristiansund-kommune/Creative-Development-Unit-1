@@ -23,6 +23,10 @@ namespace Core.Concepts.Entities
         public List<Bike>? Bikes { get; set; }
 
         public UserStats? Stats { get; set; }
+        public long? StravaId { get; set; }
+        public string? AccessToken { get; set; }
+        public string? RefreshToken { get; set; }
+        public DateTime? ExpiresAt { get; set; }
 
     }
 }
