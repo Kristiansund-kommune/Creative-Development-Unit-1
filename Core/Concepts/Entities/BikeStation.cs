@@ -21,7 +21,7 @@ namespace Core.Concepts.Entities
         [Required]
         [Column(TypeName ="decimal(9,6)")]
         public double Lon { get; set; }
-		public BikeStationDock[] BikeStationDocks { get; set; }
+		public List<BikeStationDock> BikeStationDocks { get; set; }
 
         [NotMapped]
         public int AvailableDocks { get; set; }

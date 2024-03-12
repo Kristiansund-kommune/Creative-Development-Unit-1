@@ -1,30 +1,58 @@
-using System.Collections.Generic;
 using Core.Concepts.Entities;
+
+using System.Data.Entity;
+using System.Linq.Expressions;
 
 namespace Core.Concepts.Repository
 {
-    public class BikeStationRepository
+	public interface IBikeStationRepository : IDisposable
+	{
+		Task<IEnumerable<BikeStation>> GetStations(Expression<Func<BikeStation, bool>> filter = null);
+
+	}
+    public class BikeStationRepository : IBikeStationRepository, IDisposable
     {
-        private readonly List<BikeStation> bikeStations;
-
-        public BikeStationRepository()
+	    private StationsContext context;
+	    private bool disposed = false;
+        public BikeStationRepository(StationsContext context)
         {
-            bikeStations = new List<BikeStation>();
+	        this.context = context;
         }
 
-        public IEnumerable<BikeStation> GetAllBikeStations()
+        public async Task<IEnumerable<BikeStation>> GetStations(Expression<Func<BikeStation, bool>>? filter = null)
         {
-            return bikeStations;
+            if (filter != null)
+            {
+	            return await GetAllBikeStations().Include(e => e.BikeStationDocks).Where(filter).ToListAsync();
+            }
+
+            return await GetAllBikeStations().Include(e => e.BikeStationDocks).ToListAsync();
         }
 
-        public void AddBikeStation(BikeStation station)
+        public IQueryable<BikeStation> GetAllBikeStations()
         {
-            bikeStations.Add(station);
+	        return context.BikeStations.AsQueryable();
         }
 
-        public bool RemoveBikeStation(BikeStation station)
+
+        protected virtual void Dispose(bool disposing)
         {
-            return bikeStations.Remove(station);
+	        if (!this.disposed)
+	        {
+		        if (disposing)
+		        {
+			        context.Dispose();
+		        }
+	        }
+	        this.disposed = true;
         }
+
+        public void Dispose()
+        {
+	        Dispose(true);
+	        GC.SuppressFinalize(this);
+        }
+
+
     }
 }

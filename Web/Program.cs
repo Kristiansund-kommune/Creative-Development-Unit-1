@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+using Core.Concepts.Repository;
 using Core.Concepts.Repository.DbContext;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,9 +11,15 @@ builder.Services.AddRazorPages();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<StationsContext>(options =>
+builder.Services.AddDbContext<StationsContext>(async options =>
 	options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddScoped<IBikeStationRepository, BikeStationRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+
+
+builder.Services.AddControllers().AddJsonOptions(x =>
+	x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
 
 
 var app = builder.Build();
