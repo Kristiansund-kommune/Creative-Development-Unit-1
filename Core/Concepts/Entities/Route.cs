@@ -8,45 +8,31 @@ namespace Core.Concepts.Entities
         [Key]
         public int RouteId { get; set; }
 
-        [ForeignKey("StartPoint")]
-        public int StartPointId { get; set; }
-        public Point StartPoint { get; set; }
+        [ForeignKey("UserId")]
+        public int UserId { get; set; }
+        public User? User { get; set; }
 
-        [ForeignKey("EndPoint")]
-        public int EndPointId { get; set; }
-        public Point EndPoint { get; set; }
+        [Required]
+        [Column(TypeName ="decimal(9,6)")]
+        public double StartPointLon { get; set; }
+
+        [Required]
+        [Column(TypeName ="decimal(9,6)")]
+        public double StartPointLat { get; set; }
+
+        [Required]
+        [Column(TypeName ="decimal(9,6)")]
+        public double EndPointLon { get; set; }
+
+        [Required]
+        [Column(TypeName ="decimal(9,6)")]
+        public double EndPointLat { get; set; }
 
         // Additional related information about the travel
-        public string TravelDetails { get; set; }
+        public float? ActivityDistance { get; set; }
+	    public TimeSpan? Duration { get; set; }
 
-        public Route()
-        {
-        }
-
-        public Route(Point startPoint, Point endPoint, string travelDetails)
-        {
-            StartPoint = startPoint;
-            EndPoint = endPoint;
-            TravelDetails = travelDetails;
-        }
     }
 
-    public class Point
-    {
-        [Key]
-        public int PointId { get; set; }
 
-        public float X { get; set; }
-        public float Y { get; set; }
-
-        public Point()
-        {
-        }
-
-        public Point(float x, float y)
-        {
-            X = x;
-            Y = y;
-        }
-    }
 }

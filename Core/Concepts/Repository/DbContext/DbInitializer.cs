@@ -17,24 +17,15 @@ public static class DbInitializer
 
         var users = new User[]
         {
-	        /*johndoe1234@emailfake.com
-	        sarahsmith789@emailfake.com
-	        mikeanderson456@emailfake.com
-	        emilyjones321@emailfake.com
-	        alexwilson789@emailfake.com
-	        lindajohnson234@emailfake.com
-	        chrisbrown876@emailfake.com
-	        amandawoods567@emailfake.com
-	        mattcooper123@emailfake.com
-	        jenniferlee456@emailfake.com*/
-        new User{Name="Carson Alexander",Email="johndoe1234@emailfake.com",RegistrationDate=DateTime.Parse("2005-09-01")},
-        new User{Name="Meredith Alonso",Email="sarahsmith789@emailfake.com",RegistrationDate=DateTime.Parse("2002-09-01")},
-        new User{Name="Arturo Anand",Email="mikeanderson456@emailfake.com",RegistrationDate=DateTime.Parse("2003-09-01")},
-        new User{Name="Gytis Barzdukas",Email="emilyjones321@emailfake.com",RegistrationDate=DateTime.Parse("2002-09-01")},
-        new User{Name="Yan Li",Email="alexwilson789@emailfake.com",RegistrationDate=DateTime.Parse("2002-09-01")},
-        new User{Name="Peggy Justice",Email="lindajohnson234@emailfake.com",RegistrationDate=DateTime.Parse("2001-09-01")},
-        new User{Name="Laura Norman",Email="mattcooper123@emailfake.com",RegistrationDate=DateTime.Parse("2003-09-01")},
-        new User{Name="Nino Olivetto",Email="amandawoods567@emailfake.com",RegistrationDate=DateTime.Parse("2005-09-01")}
+        new User{Name="Carson Alexander",Email="johndoe1234@emailfake.com",CurrentPoints = 0,RegistrationDate=DateTime.Parse("2023-04-01")},
+        new User{Name="Meredith Alonso",Email="sarahsmith789@emailfake.com",CurrentPoints = 0,RegistrationDate=DateTime.Parse("2023-07-01")},
+        new User{Name="Arturo Anand",Email="mikeanderson456@emailfake.com",CurrentPoints = 0,RegistrationDate=DateTime.Parse("2022-02-10")},
+        new User{Name="Gytis Barzdukas",Email="emilyjones321@emailfake.com",CurrentPoints = 0,RegistrationDate=DateTime.Parse("2023-09-01")},
+        new User{Name="Yan Li",Email="alexwilson789@emailfake.com",CurrentPoints = 0,RegistrationDate=DateTime.Parse("2024-01-01")},
+        new User{Name="Peggy Justice",Email="lindajohnson234@emailfake.com",CurrentPoints = 0,RegistrationDate=DateTime.Parse("2023-12-01")},
+        new User{Name="Laura Norman",Email="mattcooper123@emailfake.com",CurrentPoints = 0,RegistrationDate=DateTime.Parse("2023-11-01")},
+        new User{Name="Nino Olivetto",Email="amandawoods567@emailfake.com",CurrentPoints = 0,RegistrationDate=DateTime.Parse("2023-12-05")},
+        new User{Name="Denis Senokosov",Email="senokosovden@gmail.com",CurrentPoints = 0,RegistrationDate=DateTime.Parse("2023-12-05")}
         };
         foreach (User u in users)
         {
@@ -44,22 +35,55 @@ public static class DbInitializer
 
         var stations = new BikeStation[]
         {
-	        new BikeStation { StationName = "Station 1", Lat = 40.712776, Lon = -74.005974},
-	        new BikeStation { StationName = "Station 2", Lat = 40.712776, Lon = -74.005974 },
-	        new BikeStation { StationName = "Station 3", Lat = 40.712776, Lon = -74.005974 },
-	        new BikeStation { StationName = "Station 4", Lat = 40.712776, Lon = -74.005974 },
-	        new BikeStation { StationName = "Station 5", Lat = 40.712776, Lon = -74.005974 },
-	        new BikeStation { StationName = "Station 6", Lat = 40.712776, Lon = -74.005974},
-	        new BikeStation { StationName = "Station 7", Lat = 40.712776, Lon = -74.005974 },
-	        new BikeStation { StationName = "Station 8", Lat = 40.712776, Lon = -74.005974 },
-	        new BikeStation { StationName = "Station 9", Lat = 40.712776, Lon = -74.005974 },
-	        new BikeStation { StationName = "Station 10", Lat = 40.712776, Lon = -74.005974 },
+	        new BikeStation {  StationName = "Futura rv.70", Lat = 7.7827349, Lon = 63.110742},
+	        new BikeStation {  StationName = "Campus Kristiansund", Lat = 7.7340521, Lon = 63.1147579 },
+	        new BikeStation {  StationName = "Kristiansund lufthavn", Lat = 7.8258807, Lon = 63.1140906 },
+	        new BikeStation {  StationName = "Monges plass", Lat = 7.7902447, Lon = 63.1074134 },
         };
+
         foreach (BikeStation c in stations)
         {
 	        context.BikeStations.Add(c);
         }
         context.SaveChanges();
+
+
+        var docks = new BikeStationDock[]
+        {
+	        new BikeStationDock { BikeStationId = 1, Status = StationDockStatus.Available },
+	        new BikeStationDock { BikeStationId = 1, Status = StationDockStatus.Available },
+	        new BikeStationDock { BikeStationId = 1, Status = StationDockStatus.Available },
+	        new BikeStationDock { BikeStationId = 1, Status = StationDockStatus.Available },
+	        new BikeStationDock { BikeStationId = 1, Status = StationDockStatus.Available },
+	        new BikeStationDock { BikeStationId = 1, Status = StationDockStatus.Available },
+	        new BikeStationDock { BikeStationId = 2, Status = StationDockStatus.Available },
+	        new BikeStationDock { BikeStationId = 2, Status = StationDockStatus.Available },
+	        new BikeStationDock { BikeStationId = 2, Status = StationDockStatus.Available },
+	        new BikeStationDock { BikeStationId = 2, Status = StationDockStatus.Available },
+	        new BikeStationDock { BikeStationId = 2, Status = StationDockStatus.Available },
+	        new BikeStationDock { BikeStationId = 2, Status = StationDockStatus.Available },
+	        new BikeStationDock { BikeStationId = 2, Status = StationDockStatus.Available },
+	        new BikeStationDock { BikeStationId = 3, Status = StationDockStatus.Available },
+	        new BikeStationDock { BikeStationId = 3, Status = StationDockStatus.Available },
+	        new BikeStationDock { BikeStationId = 3, Status = StationDockStatus.Available },
+	        new BikeStationDock { BikeStationId = 3, Status = StationDockStatus.Available },
+	        new BikeStationDock { BikeStationId = 3, Status = StationDockStatus.Available },
+	        new BikeStationDock { BikeStationId = 3, Status = StationDockStatus.Available },
+	        new BikeStationDock { BikeStationId = 4, Status = StationDockStatus.Available },
+	        new BikeStationDock { BikeStationId = 4, Status = StationDockStatus.Available },
+	        new BikeStationDock { BikeStationId = 4, Status = StationDockStatus.Available },
+	        new BikeStationDock { BikeStationId = 4, Status = StationDockStatus.Available },
+	        new BikeStationDock { BikeStationId = 4, Status = StationDockStatus.Available },
+        };
+
+        foreach (BikeStationDock c in docks)
+        {
+	        context.Docks.Add(c);
+        }
+        context.SaveChanges();
+
+
+
 
         var bikes = new Bike[]
         {
@@ -77,13 +101,45 @@ public static class DbInitializer
 	        new Bike{OwnerId= 3, BikeType = BikeType.Hybrid},
 	        new Bike{OwnerId= 7, BikeType = BikeType.Road},
 	        new Bike{OwnerId= 8, BikeType = BikeType.Hybrid},
-
+	        new Bike{OwnerId= 9, BikeType = BikeType.Hybrid},
+	        new Bike{OwnerId= 9, BikeType = BikeType.Road},
         };
         foreach (Bike e in bikes)
         {
 	        context.Bikes.Add(e);
         }
         context.SaveChanges();
+
+        var level = new UserLevel[]
+        {
+	        new UserLevel{Title="Newcomer" , RequiredPoints = 0},
+	        new UserLevel{Title="Apprentice", RequiredPoints = 1000},
+	        new UserLevel{Title="Journeyman", RequiredPoints = 5000},
+	        new UserLevel{Title="Specialist", RequiredPoints = 10000},
+	        new UserLevel{Title="Adept", RequiredPoints = 25000},
+	        new UserLevel{Title="Master", RequiredPoints = 100000},
+	        new UserLevel{Title="Prodigy", RequiredPoints = 250000},
+	        new UserLevel{Title="Elite", RequiredPoints = 1000000},
+	        new UserLevel{Title="Champion", RequiredPoints = 2500000},
+	        new UserLevel{Title="Legend", RequiredPoints = 1000000},
+        };
+        foreach (UserLevel e in level)
+        {
+	        context.Levels.Add(e);
+        }
+        context.SaveChanges();
+
+        var routes = new Route[]
+        {
+	        new Route {UserId= 9, StartPointLon = 63.1106918, EndPointLon = 63.118105, StartPointLat = 7.7630048, EndPointLat = 7.7494431, ActivityDistance = 12446.0f, },
+        };
+        foreach (Route e in routes)
+        {
+	        context.Routes.Add(e);
+        }
+        context.SaveChanges();
+
+
     }
 }
 
