@@ -11,10 +11,13 @@ public class UserController : ControllerBase
 {
 
 	private readonly IUserRepository _userRepository;
+	private readonly IUserStatsRepository _userStatsRepository;
 
-	public UserController(IUserRepository userRepository)
+	public UserController(IUserRepository userRepository,
+		IUserStatsRepository userStatsRepository)
 	{
 		_userRepository = userRepository;
+		_userStatsRepository = userStatsRepository;
 	}
 
 
@@ -29,6 +32,19 @@ public class UserController : ControllerBase
 	public async Task<User?> GetUserByEmail(string email)
 	{
 		var user = await _userRepository.GetUserByEmail(email);
+		return user;
+	}
+
+	[HttpGet(Name = "GetUserWithStats")]
+	public async Task<User?> GetUserWithStats(int id)
+	{
+		var user = await _userRepository.GetUserById(id);
+		if (user != null)
+		{
+			var stats = await _userStatsRepository.UpdateUserStats(user.Id);
+			user.Stats = stats;
+		}
+
 		return user;
 	}
 

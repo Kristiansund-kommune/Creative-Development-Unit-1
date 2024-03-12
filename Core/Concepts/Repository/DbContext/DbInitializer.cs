@@ -17,15 +17,15 @@ public static class DbInitializer
 
         var users = new User[]
         {
-        new User{Name="Carson Alexander",Email="johndoe1234@emailfake.com",CurrentPoints = 0,RegistrationDate=DateTime.Parse("2023-04-01")},
-        new User{Name="Meredith Alonso",Email="sarahsmith789@emailfake.com",CurrentPoints = 0,RegistrationDate=DateTime.Parse("2023-07-01")},
-        new User{Name="Arturo Anand",Email="mikeanderson456@emailfake.com",CurrentPoints = 0,RegistrationDate=DateTime.Parse("2022-02-10")},
-        new User{Name="Gytis Barzdukas",Email="emilyjones321@emailfake.com",CurrentPoints = 0,RegistrationDate=DateTime.Parse("2023-09-01")},
-        new User{Name="Yan Li",Email="alexwilson789@emailfake.com",CurrentPoints = 0,RegistrationDate=DateTime.Parse("2024-01-01")},
-        new User{Name="Peggy Justice",Email="lindajohnson234@emailfake.com",CurrentPoints = 0,RegistrationDate=DateTime.Parse("2023-12-01")},
-        new User{Name="Laura Norman",Email="mattcooper123@emailfake.com",CurrentPoints = 0,RegistrationDate=DateTime.Parse("2023-11-01")},
-        new User{Name="Nino Olivetto",Email="amandawoods567@emailfake.com",CurrentPoints = 0,RegistrationDate=DateTime.Parse("2023-12-05")},
-        new User{Name="Denis Senokosov",Email="senokosovden@gmail.com",CurrentPoints = 0,RegistrationDate=DateTime.Parse("2023-12-05")}
+        new User{Name="Carson Alexander",Email="johndoe1234@emailfake.com",RegistrationDate=DateTime.Parse("2023-04-01")},
+        new User{Name="Meredith Alonso",Email="sarahsmith789@emailfake.com",RegistrationDate=DateTime.Parse("2023-07-01")},
+        new User{Name="Arturo Anand",Email="mikeanderson456@emailfake.com",RegistrationDate=DateTime.Parse("2022-02-10")},
+        new User{Name="Gytis Barzdukas",Email="emilyjones321@emailfake.com",RegistrationDate=DateTime.Parse("2023-09-01")},
+        new User{Name="Yan Li",Email="alexwilson789@emailfake.com",RegistrationDate=DateTime.Parse("2024-01-01")},
+        new User{Name="Peggy Justice",Email="lindajohnson234@emailfake.com",RegistrationDate=DateTime.Parse("2023-12-01")},
+        new User{Name="Laura Norman",Email="mattcooper123@emailfake.com",RegistrationDate=DateTime.Parse("2023-11-01")},
+        new User{Name="Nino Olivetto",Email="amandawoods567@emailfake.com",RegistrationDate=DateTime.Parse("2023-12-05")},
+        new User{Name="Denis Senokosov",Email="senokosovden@gmail.com",RegistrationDate=DateTime.Parse("2023-12-05")}
         };
         foreach (User u in users)
         {

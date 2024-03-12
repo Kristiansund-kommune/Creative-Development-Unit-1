@@ -1,6 +1,5 @@
 using Core.Concepts.Entities;
-
-using System.Data.Entity;
+using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
 namespace Core.Concepts.Repository

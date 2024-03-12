@@ -16,6 +16,8 @@ builder.Services.AddDbContext<StationsContext>(async options =>
 
 builder.Services.AddScoped<IBikeStationRepository, BikeStationRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IRidesDbRepository, RidesDbRepository>();
+builder.Services.AddScoped<IUserStatsRepository, UserStatsRepository>();
 
 
 builder.Services.AddControllers().AddJsonOptions(x =>
