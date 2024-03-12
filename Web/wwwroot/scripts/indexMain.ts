@@ -6,12 +6,14 @@ import NotFound from "@/scripts/notFound.vue";
 import Index from "@/scripts/index.vue";
 import Layout from "@/scripts/layout.vue";
 import Main from "@/scripts/Main.vue";
+import Login from "@/scripts/Login.vue";
 
 
 const routes : RouteRecordRaw[] = [
 	{ path: "/:pathMatch(.*)", component: NotFound },
 	{ path: "/", component: Index },
-	{ path: "/main", component: Main}
+	{ path: "/main", component: Main},
+	{ path: "/login", component: Login}
 ];
 
 const router = createRouter({
