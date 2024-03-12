@@ -49,6 +49,8 @@ static char telemetry_topic[128];
 static uint8_t telemetry_payload[100];
 static uint32_t telemetry_send_count = 0;
 
+bool locked[4] = {false, false, false, false};
+
 void setup()
 {
   Serial.begin(115200);
@@ -76,19 +78,42 @@ void loop()
     next_telemetry_send_time_ms = millis() + TELEMETRY_FREQUENCY_MILLISECS;
   }
 
-  // MQTT loop must be called to process Device-to-Cloud and Cloud-to-Device.
   mqtt_client.loop();
-  delay(500);
+  delay(1000);
 }
 
 void lock(int pin) {
   Serial.println("Lock");
   digitalWrite(pin, HIGH);
+  if (pin == RELAY_1) {
+    locked[0] = true;
+  }
+  else if (pin == RELAY_2) {
+    locked[1] = true;
+  }
+  else if (pin ==RELAY_3) {
+    locked[2] = true;
+  }
+  else if (pin == RELAY_4) {
+    locked[3] = true;
+  }
 }
 
 void unlock(int pin) {
   Serial.println("Unlock");
   digitalWrite(pin, LOW);
+  if (pin == RELAY_1) {
+    locked[0] = false;
+  }
+  else if (pin == RELAY_2) {
+    locked[1] = false;
+  }
+  else if (pin ==RELAY_3) {
+    locked[2] = false;
+  }
+  else if (pin == RELAY_4) {
+    locked[3] = false;
+  }
 }
 
 void setLED(int r, int g, int b) {
@@ -96,22 +121,6 @@ void setLED(int r, int g, int b) {
   g = constrain(g, 0, 255);
   b = constrain(b, 0, 255);
 }
-
-// void connectToWiFi(){
-//   Serial.print("Connecting to WIFI SSID ");
-//   Serial.println(ssid);
-
-//   WiFi.mode(WIFI_STA);
-//   WiFi.begin(ssid, pass);
-//   while (WiFi.status() != WL_CONNECTED)
-//   {
-//     delay(500);
-//     Serial.print(".");
-//   }
-
-//   Serial.print("WiFi connected, IP address: ");
-//   Serial.println(WiFi.localIP());
-// }
 
 static void connectToWiFi()
 {
