@@ -1,7 +1,7 @@
 {
-	"name": "greentaxi-2024",
+	"name": "CDU-2024",
 	"version": "0.0.1",
-	"description": "Team GreenTaxi's entry for GreenTechSee 2024",
+	"description": "Creative Development Unit's entry for GreenTechSee 2024",
 	"private": true,
 	"scripts": {
 		"dev": "npm run pre-dev && concurrently \"vite\" \"npm run dev:watcher\"",
@@ -23,14 +23,14 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/Kristiansund-kommune/GreenTechSee-Team-GreenTaxi-2024.git"
+		"url": "git+https://github.com/Kristiansund-kommune/Creative-Development-Unit-1.git"
 	},
 	"author": "Kristiansund kommune - Avdeling for utvikling og digital innovasjon",
 	"license": "MIT",
 	"bugs": {
-		"url": "https://github.com/Kristiansund-kommune/GreenTechSee-Team-GreenTaxi-2024/issues"
+		"url": "https://github.com/Kristiansund-kommune/Creative-Development-Unit-1/issues"
 	},
-	"homepage": "https://github.com/Kristiansund-kommune/GreenTechSee-Team-GreenTaxi-2024#readme",
+	"homepage": "https://github.com/Kristiansund-kommune/Creative-Development-Unit-1#readme",
 	"dependencies": {
 		"@fortawesome/fontawesome-free": "^6.5.1",
 		"@popperjs/core": "^2.11.8",
