@@ -4,185 +4,302 @@
 		<div class="logo-container">
 			<img class="logo" src="../styles/logo.svg" alt="logo">
 		</div>
-		<button @click="showModal = true">Show Modal</button>
-		<button @click="launchConfetti">Celebrate!</button>
+		<div @click="showUserModal = true" class="m-3 user">
+			<div class="person-icon-box font-s me-1">
+				<i class="fa-regular fa-user icon"></i>
+			</div>
+		</div>
+		<button type="button" class="btn btn-primary" @click="showModal = true">Show Modal</button>
+		<button type="button" class="btn btn-primary" @click="launchConfetti">Celebrate!</button>
+
 		<div v-if="showMessage" class="level-up-message">Level Up!</div>
-		<div v-if="showModal" class="modal">
-			<div class="modal-content">				
-				<div>
-					<span class="close" @click="showModal = false">&times;</span>
-				</div>
-				<h2>Parkering</h2>
-				<div class="p-3"></div>
-				<p>Plasser som er tillgejenlig:</p>
-				<div class="border2 m-3 p-4">
-					<div v-for="div in divs" :key="div.id" class="selectable-div" :class="{'red': div.selected, 'green': !div.selected}" @click="toggleSelection(div.id)" v-html="div.name">
+		<div v-if="showModal" class="modal fade show d-block" style="z-index: 1050;" tabindex="-1" role="dialog">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">				
+					<div>
+						<span class="close" @click="showModal = false">&times;</span>
+					</div>
+					<h2>Parkering</h2>
+					<div class="p-3"></div>
+					<p>Plasser som er tillgejenlig:</p>
+					<div class="border2 m-3 p-4">
+						<div v-for="div in divs" :key="div.id" class="selectable-div" :class="{'red': div.selected, 'green': !div.selected}" @click="toggleSelection(div.id)" v-html="div.name">
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+	<div v-if="showUserModal" class="modal fade show d-block" style="z-index: 1050;" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">User Details</h5>
+					<button type="button" class="btn-close" @click="showUserModal = false" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="d-flex align-items-center text-center mb-4">
+						<div class="person-icon-box me-3">
+							<i class="fa-regular fa-user icon"></i>
+						</div>
+					</div>
+            
+					<hr>
+            
+					<div class="mb-3">
+						<h6>{{ user.name }}</h6>
+						<p class="text-muted">{{ user.email }}</p>
+						<hr>
+						<p><strong>Registration Date:</strong> {{ user.registrationDate | formatDate }}</p>
+						<p><strong>Number of Rides:</strong> {{ user.stats.numberOfRides }}</p>
+						<p><strong>Total Distance:</strong> {{ user.stats.totalDistance }} km</p>
+						<p><strong>Total Time:</strong> {{ user.stats.totalTime }} hours</p>
+						<p><strong>Current Points:</strong> {{ user.stats.currentPoints }}</p>
+						<p><strong>Level:</strong> {{ user.stats.level.title }}</p>
+					</div>
+            
+					<hr>
+					<p class="text-secondary">2000/2700</p>
+					<div class="progress">
+						
+						<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" @click="showUserModal = false">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 </template>
 
-<style scoped>
-.logo-container {
-  position: absolute;
-  top: 0;
-  left: 0;
+  <style scoped>
+.person-icon-box {
+  /* Example styling; adjust as needed */
   display: flex;
-  align-items: right;
-  padding: 10px 25px;
-  background-color: rgb(240, 239, 239);
-}
-
-.logo {
-  height: 50px;
-  width: auto;
-}
-
-.level-up-message {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 3rem;
-  color: yellow;
-  z-index: 2; /* Ensure it's visible above other elements */
-  background-color: rgba(0, 0, 0, 0.5);
-  padding: 20px;
-  border-radius: 10px;
-}
-
-.modal {
-  display: block;
-  position: fixed;
-  z-index: 1;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0, 0, 0, 0.4);
-}
-
-.border2 {
-	border-bottom: 0 !important;
-	padding: 15px;
-	border: 1PX solid black;
-  display: grid;
-  border-radius: 10px 10px 0px 0px;
-  grid-template-columns: repeat(auto-fill, minmax(80px, 0.5fr)); /* Creates a responsive grid where each cell has a min width of 120px */
-  gap: 20px; /* Adjusts the gap between grid items */
-}
-
-
-.modal-content {
-  background-color: #fefefe;
-  margin: 15% auto;
-  padding: 2%;
-  border: 1px solid #888;
-  width: 80%;
-}
-
-.close {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.selectable-div {
-  text-align: center;
-  padding: 0px;
-  border-radius: 5px;
-  cursor: pointer;
-  color: white; /* White text */
-  height: 60px;
-  width: 60px;
-  font-size: 2em;
-  display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  width: 100px;
+  height: 100px;
+  font-size: 4em;
+  border-radius: 50px; /* Makes it circular */
+  background-color: #f0f0f0; /* Light grey background */
+  margin-right: 15px;
 }
 
-.red {
-  background-color: rgb(165, 30, 30);
+.font-s{
+	font-size: 2.5em !important;
+	cursor: pointer;
+	border: 1px solid black;
+	background: white; 
+	width: 100px !important;
+  	height: 100px !important;
 }
 
-.green {
-  background-color: rgb(18, 110, 18);
-}
-</style>
-
-<script setup lang="ts">
-import { ref } from "vue";
-import Map from "@/scripts/Map.vue";
-import confetti from "canvas-confetti";
-
-const showMessage = ref(false);
-
-const showModal = ref(false);
-
-interface Div {
-	id: number;
-	name: string;
-	selected: boolean;
+.user {
+	position: absolute;
+    top: 0;
+    right: 0;
 }
 
-const divs = ref<Div[]>([
-	{ id: 1, name: '<i class="fa-solid fa-square-parking"></i>', selected: false },
-	{ id: 2, name: '<i class="fa-solid fa-square-parking"></i>', selected: false },
-	{ id: 3, name: '<i class="fa-solid fa-square-parking"></i>', selected: true },
-	{ id: 4, name: '<i class="fa-solid fa-square-parking"></i>', selected: false },
-	{ id: 5, name: '<i class="fa-solid fa-square-parking"></i>', selected: true },
-	{ id: 6, name: '<i class="fa-solid fa-square-parking"></i>', selected: false },
-	{ id: 7, name: '<i class="fa-solid fa-square-parking"></i>', selected: true },
-	{ id: 8, name: '<i class="fa-solid fa-square-parking"></i>', selected: true },
-	{ id: 9, name: '<i class="fa-solid fa-square-parking"></i>', selected: false },
-	{ id: 0, name: '<i class="fa-solid fa-square-parking"></i>', selected: false },
-	{ id: 22, name: '<i class="fa-solid fa-square-parking"></i>', selected: false },
-	{ id: 42, name: '<i class="fa-solid fa-square-parking"></i>', selected: false },
-	{ id: 29, name: '<i class="fa-solid fa-square-parking"></i>', selected: false },
-	{ id: 20, name: '<i class="fa-solid fa-square-parking"></i>', selected: false },
-]);
 
-const toggleSelection = (id: number) => {
-	const div = divs.value.find(d => d.id === id);
-	if (div) {
-		div.selected = !div.selected;
-	}
+/* Additional spacing for modal content */
+.modal-content {
+  padding: 20px;
+}
+
+/* Styling for horizontal rules */
+hr {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border: 0;
+  border-top: 1px solid rgba(0,0,0,.1);
+}
+
+/* Adjustments for better spacing and appearance */
+.modal-header, .modal-footer {
+  border-bottom: 0;
+  border-top: 0;
+}
+
+.modal-body p {
+  margin-bottom: 10px; /* Adds a little more space between paragraphs */
+}
+
+
+
+  .logo-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: right;
+    padding: 10px 25px;
+    background-color: rgb(240, 239, 239);
+	
+  }
+
+  .logo {
+    height: 50px;
+    width: auto;
+  }
+
+  .level-up-message {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 3rem;
+    color: yellow;
+    z-index: 2;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    border-radius: 10px;
+  }
+
+  .modal {
+    display: block;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+
+  .border2 {
+    border-bottom: 0 !important;
+    padding: 15px;
+    border: 1PX solid black;
+    display: grid;
+    border-radius: 10px 10px 0px 0px;
+    grid-template-columns: repeat(auto-fill, minmax(45px, 0.5fr));
+    gap: 20px;
+  }
+
+
+  .modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 2%;
+    border: 1px solid #888;
+    width: 80%;
+  }
+
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .selectable-div {
+    text-align: center;
+    padding: 0px;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+    height: 60px;
+    width: 60px;
+    font-size: 2em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .red {
+    background-color: rgb(165, 30, 30);
+  }
+
+  .green {
+    background-color: rgb(18, 110, 18);
+  }
+  </style>
+
+  <script setup lang="ts">
+  import { ref } from "vue";
+  import Map from "@/scripts/Map.vue";
+  import confetti from "canvas-confetti";
+
+  const showMessage = ref(false);
+  const showUserModal = ref(false);
+  const showModal = ref(false);
+
+  const user = ref({
+  name: "John Doe",
+  email: "john.doe@example.com",
+  registrationDate: new Date(), // Example: use actual data here
+  stats: {
+    numberOfRides: 100,
+    totalDistance: 1500,
+    totalTime: 75,
+    currentPoints: 2000,
+    level: {
+      title: "Journeyman",
+    },
+  },
+});
+
+// Example filter for formatting dates, adjust as needed
+const formatDate = (value) => {
+  if (!value) {
+return "";
+}
+  const date = new Date(value);
+  return date.toLocaleDateString();
 };
 
-const launchConfetti = () => {
-  // Show the "Level Up!" message
-  showMessage.value = true;
 
-  // Launch confetti immediately
-  confetti({
-    particleCount: 100,
-    spread: 70,
-    origin: { y: 0.5 },
-  });
+  interface Div {
+    id: number;
+    name: string;
+    selected: boolean;
+  }
 
-  // Hide the message after 1 second
-  setTimeout(() => {
-    showMessage.value = false;
-  }, 1000);
+  const divs = ref<Div[]>([
+    { id: 1, name: '<i class="fa-solid fa-square-parking"></i>', selected: false },
+    { id: 2, name: '<i class="fa-solid fa-square-parking"></i>', selected: false },
+    { id: 3, name: '<i class="fa-solid fa-square-parking"></i>', selected: true },
+    { id: 4, name: '<i class="fa-solid fa-square-parking"></i>', selected: false },
+  ]);
 
-  // Launch confetti again after a 0.5-second delay
-  setTimeout(() => {
+  const toggleSelection = (id: number) => {
+    const div = divs.value.find(d => d.id === id);
+    if (div) {
+      div.selected = !div.selected;
+    }
+  };
+
+  const launchConfetti = () => {
+    showMessage.value = true;
+
     confetti({
-      particleCount: 200,
-      spread: 220,
+      particleCount: 100,
+      spread: 70,
       origin: { y: 0.5 },
     });
-  }, 500);
-};
-</script>
+
+    setTimeout(() => {
+      showMessage.value = false;
+    }, 1000);
+
+    setTimeout(() => {
+      confetti({
+        particleCount: 200,
+        spread: 220,
+        origin: { y: 0.5 },
+      });
+    }, 500);
+  };
+  </script>
