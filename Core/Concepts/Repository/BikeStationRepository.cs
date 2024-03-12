@@ -1,16 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
-
 using Core.Concepts.Entities;
-using Microsoft.EntityFrameworkCore;
+
+using System.Data.Entity;
+using System.Linq.Expressions;
 
 namespace Core.Concepts.Repository
 {
 	public interface IBikeStationRepository : IDisposable
 	{
-		IEnumerable<BikeStation> GetStations(Func<BikeStation, bool> filter = null);
+		Task<IEnumerable<BikeStation>> GetStations(Expression<Func<BikeStation, bool>> filter = null);
 
 	}
     public class BikeStationRepository : IBikeStationRepository, IDisposable
@@ -22,14 +19,21 @@ namespace Core.Concepts.Repository
 	        this.context = context;
         }
 
-        public IEnumerable<BikeStation> GetStations(Func<BikeStation, bool> filter = null)
+        public async Task<IEnumerable<BikeStation>> GetStations(Expression<Func<BikeStation, bool>>? filter = null)
         {
             if (filter != null)
             {
-	            return context.BikeStations.Include(e => e.BikeStationDocks).Where(filter).ToList();
+	            return await GetAllBikeStations().Include(e => e.BikeStationDocks).Where(filter).ToListAsync();
             }
-            return context.BikeStations.Include(e => e.BikeStationDocks).ToList();
+
+            return await GetAllBikeStations().Include(e => e.BikeStationDocks).ToListAsync();
         }
+
+        public IQueryable<BikeStation> GetAllBikeStations()
+        {
+	        return context.BikeStations.AsQueryable();
+        }
+
 
         protected virtual void Dispose(bool disposing)
         {

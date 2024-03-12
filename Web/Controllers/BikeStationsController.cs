@@ -21,9 +21,16 @@ public class BikeStationsController : ControllerBase
 	/// </summary>
 	/// <returns>An IEnumerable of BikeStation objects representing all the bike stations.</returns>
 	[HttpGet(Name = "GetBikeStations")]
-	public IEnumerable<BikeStation> Get()
+	public async Task<IEnumerable<BikeStation>> Get()
 	{
-		return _bikeStationRepository.GetStations();
+		var stations = (await _bikeStationRepository.GetStations()).ToList();
+		foreach (var station in stations)
+		{
+			station.TotalDocks = station.BikeStationDocks.Count;
+			station.AvailableDocks = station.BikeStationDocks.Count(e => e.Status == StationDockStatus.Available);
+		}
+
+		return stations;
 	}
 
 
