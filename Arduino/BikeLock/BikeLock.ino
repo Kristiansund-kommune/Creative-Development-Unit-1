@@ -83,7 +83,6 @@ void loop()
 }
 
 void lock(int pin) {
-  Serial.println("Lock");
   digitalWrite(pin, HIGH);
   if (pin == RELAY_1) {
     locked[0] = true;
@@ -100,7 +99,6 @@ void lock(int pin) {
 }
 
 void unlock(int pin) {
-  Serial.println("Unlock");
   digitalWrite(pin, LOW);
   if (pin == RELAY_1) {
     locked[0] = false;
@@ -170,14 +168,63 @@ static void printCurrentTime()
 
 void receivedCallback(char* topic, byte* payload, unsigned int length)
 {
-  Serial.print("Received [");
-  Serial.print(topic);
-  Serial.print("]: ");
-  for (int i = 0; i < length; i++)
-  {
-    Serial.print((char)payload[i]);
+  char command[length];
+  for(int i = 0; i < length; i++){
+    command[i] = (char)payload[i];
   }
-  Serial.println("");
+  command[length] = '\0';
+  int splitIndex;
+  for (splitIndex = 0; splitIndex < length; splitIndex++){
+    if (command[splitIndex] == ':'){
+      break;
+    }
+  }
+  char cmd[splitIndex];
+  int cmdIndex = 0;
+  char value[length-splitIndex];
+  int valueIndex = 0;
+  for (int i = 0; i < length; i++){
+    if (command[i] == ':'){
+      continue;
+    }
+    else if (i < splitIndex){
+      cmd[cmdIndex++] = command[i];
+    }
+    else {
+      value[valueIndex++] = command[i];
+    }
+  }
+  cmd[cmdIndex] = '\0';
+  value[valueIndex] = '\0';
+
+  Serial.println(cmd);
+  Serial.println(value);
+
+  if(strcmp(cmd, "status") == 0){
+    // todo: report status
+  } else if (strcmp(cmd, "lock") == 0){
+    Serial.println("locking");
+    lock(lockIdToPin(atoi(value)));
+  } else if (strcmp(cmd, "unlock") == 0){
+    Serial.println("unlocking");
+    unlock(lockIdToPin(atoi(value)));
+  }
+}
+
+int lockIdToPin(int id){
+  if (id == 1){
+    return RELAY_1;
+  }
+  if (id == 2){
+    return RELAY_2;
+  }
+  if (id == 3){
+    return RELAY_3;
+  }
+  if (id == 4){
+    return RELAY_4;
+  }
+  return 0;
 }
 
 static void initializeClients()
