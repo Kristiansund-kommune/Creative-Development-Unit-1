@@ -14,9 +14,7 @@ public class BikeStationDock
 {
 	[Key]
 	public int Id { get; set; }
-	[Required]
-	public int BikeStationId { get; set; }
-	[ForeignKey("BikeStationId")]
+
 	public BikeStation? BikeStation { get; set; }
 	[Required]
 	public StationDockStatus Status { get; set; }

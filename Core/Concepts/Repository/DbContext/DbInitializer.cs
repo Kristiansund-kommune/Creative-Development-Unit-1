@@ -48,6 +48,7 @@ public static class DbInitializer
         context.SaveChanges();
 
 
+        /*
         var docks = new BikeStationDock[]
         {
 	        new BikeStationDock { BikeStationId = 1, Status = StationDockStatus.Available },
@@ -81,6 +82,7 @@ public static class DbInitializer
 	        context.Docks.Add(c);
         }
         context.SaveChanges();
+        */
 
 
 

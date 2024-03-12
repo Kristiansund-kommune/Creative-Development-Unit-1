@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+using Core.Concepts.Repository;
 using Core.Concepts.Repository.DbContext;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,6 +14,10 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<StationsContext>(options =>
 	options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddScoped<IBikeStationRepository, BikeStationRepository>();
+
+builder.Services.AddControllers().AddJsonOptions(x =>
+	x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
 
 
 var app = builder.Build();

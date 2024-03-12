@@ -1,30 +1,54 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
+
+
 using Core.Concepts.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Core.Concepts.Repository
 {
-    public class BikeStationRepository
+	public interface IBikeStationRepository : IDisposable
+	{
+		IEnumerable<BikeStation> GetStations(Func<BikeStation, bool> filter = null);
+
+	}
+    public class BikeStationRepository : IBikeStationRepository, IDisposable
     {
-        private readonly List<BikeStation> bikeStations;
-
-        public BikeStationRepository()
+	    private StationsContext context;
+	    private bool disposed = false;
+        public BikeStationRepository(StationsContext context)
         {
-            bikeStations = new List<BikeStation>();
+	        this.context = context;
         }
 
-        public IEnumerable<BikeStation> GetAllBikeStations()
+        public IEnumerable<BikeStation> GetStations(Func<BikeStation, bool> filter = null)
         {
-            return bikeStations;
+            if (filter != null)
+            {
+	            return context.BikeStations.Include(e => e.BikeStationDocks).Where(filter).ToList();
+            }
+            return context.BikeStations.Include(e => e.BikeStationDocks).ToList();
         }
 
-        public void AddBikeStation(BikeStation station)
+        protected virtual void Dispose(bool disposing)
         {
-            bikeStations.Add(station);
+	        if (!this.disposed)
+	        {
+		        if (disposing)
+		        {
+			        context.Dispose();
+		        }
+	        }
+	        this.disposed = true;
         }
 
-        public bool RemoveBikeStation(BikeStation station)
+        public void Dispose()
         {
-            return bikeStations.Remove(station);
+	        Dispose(true);
+	        GC.SuppressFinalize(this);
         }
+
+
     }
 }
