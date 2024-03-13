@@ -179,7 +179,7 @@ async function fetchBusStops(){
 }
 
 
-watch(clientCoordinates, (newVal, oldVal) => {
+watch(clientCoordinates, (newVal) => {
         map.value.flyTo({center: [newVal.lng, newVal.lat], zoom: 13});
     });
 </script>

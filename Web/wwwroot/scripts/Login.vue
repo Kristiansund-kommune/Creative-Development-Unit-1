@@ -62,7 +62,6 @@ function isValidEmail(email: string): boolean {
 }
 
 async function handleLogin() {
-  console.log("Login data:", loginData.value);
   const { email, password } = loginData.value;
 
   if (!isValidEmail(email)) {

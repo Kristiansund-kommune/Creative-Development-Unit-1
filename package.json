@@ -7,7 +7,7 @@
 		"dev": "npm run pre-dev && concurrently \"vite\" \"npm run dev:watcher\"",
 		"pre-dev": "npm run copy-font-awesome",
 		"dev:watcher": "nodemon --watch Web/wwwroot -e vue,js,jsx,cjs,mjs,ts,tsx,cts,mts -x \"npm run lint-and-type-check-and-test\"",
-		"lint-and-type-check-and-test": "concurrently \"npm run lint\" \"npm run type-check\" \"npm run test\"",
+		"lint-and-type-check-and-test": "concurrently \"npm run lint\"  \"npm run test\"",
 		"lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix",
 		"type-check": "vue-tsc --build --force",
 		"build": "npm run copy-font-awesome && npm run lint && npm audit && npm run audit-dotnet && run-p type-check \"build-only {@}\" --",

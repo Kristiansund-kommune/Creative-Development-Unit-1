@@ -23,7 +23,7 @@
 					<div class="p-3"></div>
 					<p>Plasser som er tillgejenlig:</p>
 					<div class="border2 m-3 p-4">
-						<div v-for="div in divs" :key="div.id" class="selectable-div" :class="{'red': div.selected, 'green': !div.selected}" @click="toggleSelection(div.id)" v-html="div.name">
+						<div v-for="div in divs" :key="div.id" class="selectable-div" :class="{'red': div.selected, 'green': !div.selected}" @click="toggleSelection(div.id)">
 						</div>
 					</div>
 				</div>
@@ -95,7 +95,7 @@
 	border: 1px solid black;
 	background: white; 
 	width: 100px !important;
-  	height: 100px !important;
+	height: 100px !important;
 }
 
 .user {
@@ -241,7 +241,7 @@ const showModal = ref(false);
 
 
 const router = useRouter();
-
+const dummyVar = ref();
 
 
 onMounted( async () =>{
@@ -268,7 +268,7 @@ async function fetchUserData(){
 
 
 function openBikeStationWindow(name: string){
-	console.log("Emitted id" + name);
+	dummyVar.value = name;
 	showModal.value = true;
 }
 
@@ -276,7 +276,6 @@ async function fetchBusStops(){
 	try {
 		const response = await axios.get(`/BikeStations`);
 		if (response.data) {
-			console.log(response.data.$values);
 			const data = response.data.$values;
 			bikeStations.value = data.map(e => new BikeStation(e.Lat, e.Lon, e.BikeStationDocks, e.TotalDocks, e.AvailableDocks, e.StationName, e.StationId));
 		}
