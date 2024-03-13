@@ -24,6 +24,12 @@
 					<p>Plasser som er tillgejenlig:</p>
 					<div class="border2 m-3 p-4">
 						<div v-for="div in divs" :key="div.id" class="selectable-div" :class="{'red': div.selected, 'green': !div.selected}" @click="toggleSelection(div.id)">
+							<button @click.prevent="lockStand(div.id)">
+								{{ div.id }}
+							</button>
+							<button @click.prevent="unlockStand(div.id)">
+								{{ div.id }}
+							</button>
 						</div>
 					</div>
 				</div>
@@ -361,6 +367,14 @@ const divs = ref<Div[]>([
 	{ id: 3, name: '<i class="fa-solid fa-square-parking"></i>', selected: true },
 	{ id: 4, name: '<i class="fa-solid fa-square-parking"></i>', selected: false },
 ]);
+
+const lockStand = async (id: number) => {
+	await axios.post(`/BikeStations/lockStand?deviceName=bikeLockPrototype&lockId=${id}`);
+};
+
+const unlockStand = async (id: number) => {
+	await axios.post(`/BikeStations/unlockStand?deviceName=bikeLockPrototype&lockId=${id}`);
+};
 
 const toggleSelection = (id: number) => {
 	const div = divs.value.find(d => d.id === id);
