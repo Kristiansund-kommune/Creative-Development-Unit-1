@@ -24,12 +24,12 @@
 					<p>Plasser som er tillgejenlig:</p>
 					<div class="border2 m-3 p-4">
 						<div v-for="div in divs" :key="div.id" class="selectable-div" :class="{'red': div.selected, 'green': !div.selected}" @click="toggleSelection(div.id)">
-							<button @click.prevent="lockStand(div.id)">
+							<!-- <button @click.prevent="lockStand(div.id)">
 								{{ div.id }}
 							</button>
 							<button @click.prevent="unlockStand(div.id)">
 								{{ div.id }}
-							</button>
+							</button> -->
 						</div>
 					</div>
 				</div>
@@ -364,7 +364,7 @@ interface Div {
 const divs = ref<Div[]>([
 	{ id: 1, name: '<i class="fa-solid fa-square-parking"></i>', selected: false },
 	{ id: 2, name: '<i class="fa-solid fa-square-parking"></i>', selected: false },
-	{ id: 3, name: '<i class="fa-solid fa-square-parking"></i>', selected: true },
+	{ id: 3, name: '<i class="fa-solid fa-square-parking"></i>', selected: false },
 	{ id: 4, name: '<i class="fa-solid fa-square-parking"></i>', selected: false },
 ]);
 
@@ -379,7 +379,14 @@ const unlockStand = async (id: number) => {
 const toggleSelection = (id: number) => {
 	const div = divs.value.find(d => d.id === id);
 	if (div) {
-		div.selected = !div.selected;
+		if (div.selected) {
+			div.selected = false;
+			unlockStand(id);
+		}
+		else {
+			div.selected = true;
+			lockStand(id);
+		}
 	}
 };
 
