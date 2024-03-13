@@ -19,7 +19,7 @@ public class UserController : ControllerBase
 	private readonly IUserRepository _userRepository;
 	private readonly IUserStatsRepository _userStatsRepository;
 	private readonly IConfiguration _configuration;
-	private readonly string _redirectURI = "http://localhost:5291/User/ProcessExchangeToken/exchange_token";
+	private readonly string _redirectURI = "https://localhost:44331/User/ProcessExchangeToken/exchange_token";
 	private readonly string StravaOAuthURL;
 	private readonly string _stravaClientID;
 
@@ -124,7 +124,7 @@ public class UserController : ControllerBase
 		    return StatusCode(500);
 	    }
 
-		string frontendMainPageURL = $"http://localhost:5291/#/main/{result.Id}";
+		string frontendMainPageURL = $"https://localhost:44331/#/main/{result.Id}";
 	    return Redirect(frontendMainPageURL);
     }
 

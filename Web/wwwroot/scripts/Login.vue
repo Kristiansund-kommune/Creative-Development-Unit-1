@@ -44,7 +44,13 @@ const router = useRouter();
 async function handleLoginStrava() {
 	// Add axios call to /User/RedirectUserToStrava here
 	//router.
-	window.location.href = "http://localhost:5291/User/RedirectUserToStrava";
+	if (window.location.href.at(4) === "s" ){
+		window.location.href = "https://localhost:44331/User/RedirectUserToStrava";
+	}
+else{
+		window.location.href = "http://localhost:5291/User/RedirectUserToStrava";	
+	}
+	
 }
 
 
