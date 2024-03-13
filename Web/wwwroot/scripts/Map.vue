@@ -18,26 +18,33 @@ import {cloneDeep} from "lodash";
 import axios from "axios";
 
 
-const mapContainer = ref(null);
+
+	const mapContainer = ref(null);
     const map = ref(null);
-    const clientCoordinates = ref<{lng: number, lat: number}>({ lng: 7.7271277 , lat: 63.113054});
+	const chosenCoordinates = ref<{lon: number, lat: number}>({ lon: 7.7271277 , lat: 63.113054});
 
 
 	const emit = defineEmits<{
 		(e: "openBikeStation", name: string): void
 	}>();
+
+	const props  = defineProps<{
+		userCoordinates: {lon: number, lat: number}
+	}>();
+	
 	
     onMounted(async () => {
         mapboxgl.accessToken = "pk.eyJ1Ijoibmljb25ldSIsImEiOiJjbGVzYnVwNjkwM21lNDVuemkzZDYxMDB1In0.6GUq94_v3_2Zv7aeNyJuJQ";
 
-		await getClientCoordinates();
+		
 		const stops = await fetchBusStops();
-	
+
+		console.log(props.userCoordinates);
 		map.value = new mapboxgl.Map({
 			container: mapContainer.value,
 			style: "mapbox://styles/mapbox/streets-v11",
-			center: [clientCoordinates.value.lng, clientCoordinates.value.lat],
-			zoom: 6,
+			center: [props.userCoordinates.lon, props.userCoordinates.lat],
+			zoom: 13,
 		});
 
 		map.value.on("load", async () => {
@@ -59,7 +66,10 @@ const mapContainer = ref(null);
 
 						const clickedFeature = features[0];
 						// Do something with the clicked feature
+						console.log(clickedFeature);
 						
+						chosenCoordinates.value.lat = clickedFeature.properties.lat;
+						chosenCoordinates.value.lon = clickedFeature.properties.lon;
 						emit("openBikeStation", clickedFeature.properties.title);
 					});
 					map.value.addSource("bikestations", generateFeaturePoints(stops));
@@ -83,27 +93,6 @@ const mapContainer = ref(null);
 					});
 				}
 			);
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			/*if (stops){
-				stops.map(marker => {
-					new mapboxgl.Marker()
-						.setLngLat([marker.lat, marker.lon])
-						.on("click", () => {
-							console.log("Click");
-})
-						.addTo(map.value);
-				});
-			}*/
 
 		});
 	
@@ -111,17 +100,10 @@ const mapContainer = ref(null);
     });
 
 
-	
-	
-
 
 	
-    async function getClientCoordinates(){
-		navigator.geolocation.getCurrentPosition( (position) => {
-			clientCoordinates.value = { lng: position.coords.longitude, lat: position.coords.latitude};
-		});
-	}
 
+ 
 
 
 
@@ -136,7 +118,8 @@ function generateFeaturePoints(data): any{
 		},
 		"properties": {
 			"title": "Mapbox DC",
-			"ids" : 0
+			"lat" : 0,
+			"lon" : 0
 		}
 	};
 		
@@ -155,7 +138,8 @@ function generateFeaturePoints(data): any{
 		const bf = cloneDeep(baseFeature);
 		bf.geometry.coordinates = [ e.lat, e.lon ];
 		bf.properties.title = e.stationName;
-		bf.properties.id = e.id;
+		bf.properties.lat = e.lat;
+		bf.properties.lon = e.lon;
 		return bf;
 	});
 	
@@ -179,7 +163,7 @@ async function fetchBusStops(){
 }
 
 
-watch(clientCoordinates, (newVal) => {
-        map.value.flyTo({center: [newVal.lng, newVal.lat], zoom: 13});
+watch(props.userCoordinates, (newVal) => {
+        map.value.flyTo({center: [newVal.lon, newVal.lat], zoom: 13});
     });
 </script>

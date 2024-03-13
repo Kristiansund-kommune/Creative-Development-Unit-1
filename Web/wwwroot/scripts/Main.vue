@@ -1,6 +1,6 @@
 <template>
 	<div style="height: 100vh; width: 100vw">
-		<Map @open-bike-station="openBikeStationWindow"></Map>
+		<Map @open-bike-station="openBikeStationWindow" :user-coordinates="clientCoordinates"></Map>
 		<div class="logo-container">
 			<img class="logo" src="../styles/logo.svg" alt="logo">
 		</div>
@@ -234,19 +234,26 @@ import confetti from "canvas-confetti";
 import {useRouter} from "vue-router";
 import axios from "axios";
 import BikeStation from "@/scripts/secure/BikeStation";
+import mapboxgl from "mapbox-gl";
 
 const showMessage = ref(false);
 const showUserModal = ref(false);
 const showModal = ref(false);
+const bikeStations = ref();
 
+const clientCoordinates = ref<{lon: number, lat: number}>({ lon: 7.7271277 , lat: 63.113054});
+
+
+const chosenStation = ref();
 
 const router = useRouter();
-const dummyVar = ref();
+
 
 
 onMounted( async () =>{
 	await fetchUserData(); 
 	await fetchBusStops();
+	await getClientCoordinates();
 } );
 
 
@@ -266,18 +273,27 @@ async function fetchUserData(){
 	}
 }
 
-
-function openBikeStationWindow(name: string){
-	dummyVar.value = name;
-	showModal.value = true;
+const accessToken = "pk.eyJ1Ijoibmljb25ldSIsImEiOiJjbGVzYnVwNjkwM21lNDVuemkzZDYxMDB1In0.6GUq94_v3_2Zv7aeNyJuJQ";
+async function openBikeStationWindow(name: string){
+	const index = bikeStations.value?.findIndex(e => e.stationName === name);
+	chosenStation.value = bikeStations.value[index];
+    await getRoute();
+	//showModal.value = true;
 }
+
+async function getClientCoordinates(){
+	navigator.geolocation.getCurrentPosition( (position) => {
+		clientCoordinates.value = { lon: position.coords.longitude, lat: position.coords.latitude};
+	});
+}
+
 
 async function fetchBusStops(){
 	try {
 		const response = await axios.get(`/BikeStations`);
 		if (response.data) {
-			const data = response.data.$values;
-			bikeStations.value = data.map(e => new BikeStation(e.Lat, e.Lon, e.BikeStationDocks, e.TotalDocks, e.AvailableDocks, e.StationName, e.StationId));
+			const data = response.data;
+			bikeStations.value = data.$values;
 		}
 	}
 	catch (error) {
@@ -304,7 +320,7 @@ const user = ref({
 	},
 });
 
-const bikeStations = ref<BikeStation>();
+
 
 // Example filter for formatting dates, adjust as needed
 const formatDate = (value) => {
@@ -314,6 +330,23 @@ const formatDate = (value) => {
 	const date = new Date(value);
 	return date.toLocaleDateString();
 };
+
+async function getRoute(){
+	try {
+		console.log(chosenStation.value);
+		if (!chosenStation.value){
+			return;
+		}
+		console.log(`${chosenStation.value.lon},${chosenStation.value.lat};${clientCoordinates.value.lat},${clientCoordinates.value.lon}`);
+		const url = `https://api.mapbox.com/directions/v5/mapbox/cycling/${chosenStation.value.lat},${chosenStation.value.lon};${clientCoordinates.value.lat},${clientCoordinates.value.lon}?geometries=geojson&access_token=${accessToken}`;
+		const result = await axios.get(url);
+		console.log(result);
+	}
+	catch (ex){
+		console.error(ex);
+	}
+}
+
 
 
 interface Div {

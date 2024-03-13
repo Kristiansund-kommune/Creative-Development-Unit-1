@@ -8,6 +8,9 @@ using Newtonsoft.Json.Linq;
 namespace Web.Controllers;
 using Microsoft.AspNetCore.Mvc;
 
+/// <summary>
+/// Controller class for handling user-related operations.
+/// </summary>
 [ApiController]
 [Route("[controller]/[action]")]
 public class UserController : ControllerBase
@@ -19,6 +22,10 @@ public class UserController : ControllerBase
 	private readonly string _redirectURI = "http://localhost:5291/User/ProcessExchangeToken/exchange_token";
 	private readonly string StravaOAuthURL;
 	private readonly string _stravaClientID;
+
+	/// <summary>
+	/// Controller class for handling user-related operations.
+	/// </summary>
 	public UserController(IUserRepository userRepository,
 		IUserStatsRepository userStatsRepository, IConfiguration configuration)
 	{
@@ -37,6 +44,11 @@ public class UserController : ControllerBase
 	}
 
 
+	/// <summary>
+	/// Retrieves a user by their ID.
+	/// </summary>
+	/// <param name="id">The ID of the user.</param>
+	/// <returns>The user with the specified ID, or null if no user exists with that ID.</returns>
 	[HttpGet(Name = "GetUserById")]
 	public async Task<User?> GetUserById(int id)
 	{
@@ -44,6 +56,11 @@ public class UserController : ControllerBase
 		return user;
 	}
 
+	/// <summary>
+	/// Retrieves a user by their email address.
+	/// </summary>
+	/// <param name="email">The email address of the user.</param>
+	/// <returns>The user with the specified email address, or null if no user exists with that email.</returns>
 	[HttpGet(Name = "GetUserByEmail")]
 	public async Task<User?> GetUserByEmail(string email)
 	{
@@ -51,6 +68,11 @@ public class UserController : ControllerBase
 		return user;
 	}
 
+	/// <summary>
+	/// Retrieves a user by their ID and fetches and updates their statistics.
+	/// </summary>
+	/// <param name="id">The ID of the user.</param>
+	/// <returns>The user with the specified ID, or null if no user exists with that ID.</returns>
 	[HttpGet(Name = "GetUserWithStats")]
 	public async Task<User?> GetUserWithStats(int id)
 	{
@@ -64,6 +86,14 @@ public class UserController : ControllerBase
 		return user;
 	}
 
+	/// <summary>
+	/// Redirects the user to Strava for authorization.
+	/// </summary>
+	/// <remarks>
+	/// This method constructs the Strava authorization URL and redirects the user to that URL.
+	/// The authorization URL is constructed using the client ID and redirect URI retrieved from the configuration.
+	/// </remarks>
+	/// <returns>An IActionResult representing the redirect operation.</returns>
 	[HttpGet(Name = "GetUsersToStrava")]
 	public IActionResult RedirectUserToStrava()
 	{
@@ -71,7 +101,12 @@ public class UserController : ControllerBase
 	}
 
 
-    [HttpGet("exchange_token")]
+	/// <summary>
+	/// Processes the exchange token received from Strava.
+	/// </summary>
+	/// <param name="code">The authorization code received from Strava.</param>
+	/// <returns>The IActionResult containing the redirect to the user's main page, or a 500 status code if an error occurred.</returns>
+	[HttpGet("exchange_token")]
     public async Task<IActionResult> ProcessExchangeToken(string code)
     {
 	    var clientId = _configuration["Strava:ClientId"];
@@ -93,7 +128,14 @@ public class UserController : ControllerBase
 	    return Redirect(frontendMainPageURL);
     }
 
-    [HttpPost("RegisterUserWithStrava")]
+	/// <summary>
+	/// Registers a user with Strava by exchanging the authorization code for an access token.
+	/// </summary>
+	/// <param name="clientId">The client ID for the Strava API.</param>
+	/// <param name="clientSecret">The client secret for the Strava API.</param>
+	/// <param name="authorizationCode">The authorization code obtained from the Strava authorization process.</param>
+	/// <returns>The registered user if successful, or null if the registration fails.</returns>
+	[HttpPost("RegisterUserWithStrava")]
     public async Task<User?> RegisterUserWithStrava(string clientId, string clientSecret, string authorizationCode)
     {
 	    using (var httpClient = new HttpClient())
@@ -149,6 +191,8 @@ public class UserController : ControllerBase
 		    return null;
 	    }
     }
+
+
     private (string name, long id, string accessToken, string refreshToken, DateTime expires_at)
 	    ParseJsonResponse(string jsonResponse)
     {

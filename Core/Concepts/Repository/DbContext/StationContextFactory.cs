@@ -7,6 +7,9 @@ using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 
+/// <summary>
+/// Factory class for creating the StationsContext object.
+/// </summary>
 public class StationContextFactory : IDesignTimeDbContextFactory<StationsContext>
 {
 
