@@ -37,6 +37,7 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import Top from "@/scripts/top.vue";
+import axios from "axios";
 
 
 
@@ -75,9 +76,9 @@ async function handleLogin() {
     return;
   }
 
-  const loginSuccess = await verifyLogin(email, password);
-  if (loginSuccess) {
-    router.push("/main");
+  const loginId = await verifyLogin(email, password);
+  if (loginId) {
+    router.push(`/main/${loginId}`);
   }
  else {
     alert("Login failed. Please check your email and password.");
@@ -85,10 +86,16 @@ async function handleLogin() {
 }
 
 
-async function verifyLogin(email: string, password: string): Promise<boolean> {
-  if (email && password) {
-    return true;
+async function verifyLogin(email: string, password: string){
+  if (email) {
+	  const response = await axios.get(`User/GetUserByEmail?email=${email}`);
+	  
+	  if (response.data === null){
+		  alert("User doesn't exist");
+	  }
+    return response.data.id;
   }
-  return false;
+  return;
+
 }
 </script>
