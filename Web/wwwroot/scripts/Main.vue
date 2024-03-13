@@ -283,8 +283,7 @@ const accessToken = "pk.eyJ1Ijoibmljb25ldSIsImEiOiJjbGVzYnVwNjkwM21lNDVuemkzZDYx
 async function openBikeStationWindow(name: string){
 	const index = bikeStations.value?.findIndex(e => e.stationName === name);
 	chosenStation.value = bikeStations.value[index];
-    await getRoute();
-	//showModal.value = true;
+	showModal.value = true;
 }
 
 async function getClientCoordinates(){
@@ -296,7 +295,7 @@ async function getClientCoordinates(){
 
 async function fetchBusStops(){
 	try {
-		const response = await axios.get(`/BikeStations`);
+		const response = await axios.get(`/BikeStations/Get`);
 		if (response.data) {
 			const data = response.data;
 			bikeStations.value = data.$values;
@@ -336,24 +335,6 @@ const formatDate = (value) => {
 	const date = new Date(value);
 	return date.toLocaleDateString();
 };
-
-async function getRoute(){
-	try {
-		console.log(chosenStation.value);
-		if (!chosenStation.value){
-			return;
-		}
-		console.log(`${chosenStation.value.lon},${chosenStation.value.lat};${clientCoordinates.value.lat},${clientCoordinates.value.lon}`);
-		const url = `https://api.mapbox.com/directions/v5/mapbox/cycling/${chosenStation.value.lat},${chosenStation.value.lon};${clientCoordinates.value.lat},${clientCoordinates.value.lon}?geometries=geojson&access_token=${accessToken}`;
-		const result = await axios.get(url);
-		console.log(result);
-	}
-	catch (ex){
-		console.error(ex);
-	}
-}
-
-
 
 interface Div {
 	id: number;

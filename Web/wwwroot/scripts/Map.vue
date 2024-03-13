@@ -149,7 +149,7 @@ function generateFeaturePoints(data): any{
 //
 async function fetchBusStops(){
 	try {
-		const response = await axios.get(`/BikeStations`);
+		const response = await axios.get(`/BikeStations/Get`);
 		if (response.data) {
 			const data = response.data.$values;
 			return data;
