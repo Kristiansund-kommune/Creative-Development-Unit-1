@@ -1,19 +1,21 @@
+using System.Text;
 using Core.Concepts.Entities;
 using Core.Concepts.Repository;
-
+using Microsoft.Azure.Devices;
 namespace Web.Controllers;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
-[Route("[controller]")]
+[Route("[controller]/[action]")]
 public class BikeStationsController : ControllerBase
 {
-
+	private readonly IConfiguration _configuration;
 	private readonly IBikeStationRepository _bikeStationRepository;
 
-	public BikeStationsController(IBikeStationRepository bikeStationRepository)
+	public BikeStationsController(IBikeStationRepository bikeStationRepository, IConfiguration configuration)
 	{
 		_bikeStationRepository = bikeStationRepository;
+		_configuration = configuration;
 	}
 
 	/// <summary>
@@ -33,5 +35,19 @@ public class BikeStationsController : ControllerBase
 		return stations;
 	}
 
+	[HttpPost(Name = "LockStand")]
+	public async Task LockStand(string deviceName, int lockId)
+	{
+		var serviceClient = ServiceClient.CreateFromConnectionString(_configuration["IotHub:ConnectionString"]);
+		var commandMessage = new Message(Encoding.ASCII.GetBytes($"lock:{lockId}"));
+		await serviceClient.SendAsync(deviceName, commandMessage);
+	}
 
+	[HttpPost(Name = "UnlockStand")]
+	public async Task UnlockStand(string deviceName, int lockId)
+	{
+		var serviceClient = ServiceClient.CreateFromConnectionString(_configuration["IotHub:ConnectionString"]);
+		var commandMessage = new Message(Encoding.ASCII.GetBytes($"unlock:{lockId}"));
+		await serviceClient.SendAsync(deviceName, commandMessage);
+	}
 }
