@@ -15,8 +15,9 @@
 								<label for="password" class="form-label">Password</label>
 								<input type="password" class="form-control" id="password" v-model="loginData.password" required>
 							</div>
-							<button type="submit" class="btn btn-primary w-100" onclick="handleLogin">Login</button>
-							<img class="w-50 p-4" src="../styles/powered-by-strava.png" alt="Powerd by strava">
+							<button type="submit" class="btn btn-primary w-100 my-1" @onclick="handleLogin">Login</button>
+							<button class="btn btn-warning w-100 my-1" @click.prevent="handleLoginStrava">Login with Strava</button>
+							<img class="w-50 p-4" src="../styles/powered-by-strava.png" alt="Powered  by strava">
 						</form>
 					</div>
 				</div>
@@ -25,21 +26,35 @@
 	</div>
 </template>
   
+
+
 <style scoped>
 
 </style>
 
 <script setup lang="ts">
+
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import Top from "@/scripts/top.vue";
+
+
+
+const router = useRouter();
+async function handleLoginStrava() {
+	// Add axios call to /User/RedirectUserToStrava here
+	//router.
+	window.location.href = "http://localhost:5291/User/RedirectUserToStrava";
+}
+
+
 
 const loginData = ref({
   email: "",
   password: "",
 });
 
-const router = useRouter();
+
 
 function isValidEmail(email: string): boolean {
   const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -63,6 +78,7 @@ async function handleLogin() {
     alert("Login failed. Please check your email and password.");
   }
 }
+
 
 async function verifyLogin(email: string, password: string): Promise<boolean> {
   if (email && password) {

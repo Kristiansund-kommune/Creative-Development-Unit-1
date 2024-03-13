@@ -1,6 +1,6 @@
 <template>
 	<div style="height: 100vh; width: 100vw">
-		<Map></Map>
+		<Map @open-bike-station="openBikeStationWindow"></Map>
 		<div class="logo-container">
 			<img class="logo" src="../styles/logo.svg" alt="logo">
 		</div>
@@ -50,16 +50,16 @@
 						<h6>{{ user.name }}</h6>
 						<p class="text-muted">{{ user.email }}</p>
 						<hr>
-						<p><strong>Registration Date:</strong> {{ user.registrationDate | formatDate }}</p>
+						<p><strong>Registration Date:</strong> {{ formatDate(user.registrationDate) }}</p>
 						<p><strong>Number of Rides:</strong> {{ user.stats.numberOfRides }}</p>
-						<p><strong>Total Distance:</strong> {{ user.stats.totalDistance }} km</p>
-						<p><strong>Total Time:</strong> {{ user.stats.totalTime }} hours</p>
+						<p><strong>Total Distance:</strong> {{ user.stats.totalDistance }} meters</p>
+						<p><strong>Total Time:</strong> {{ user.stats.totalTime }} minutes</p>
 						<p><strong>Current Points:</strong> {{ user.stats.currentPoints }}</p>
 						<p><strong>Level:</strong> {{ user.stats.level.title }}</p>
 					</div>
             
 					<hr>
-					<p class="text-secondary">2000/2700</p>
+					<p class="text-secondary">{{ user.stats.currentPoints }}/2700</p>
 					<div class="progress">
 						
 						<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>
@@ -227,79 +227,135 @@ hr {
   }
   </style>
 
-  <script setup lang="ts">
-  import { ref } from "vue";
-  import Map from "@/scripts/Map.vue";
-  import confetti from "canvas-confetti";
+<script setup lang="ts">
+import {onMounted, ref} from "vue";
+import Map from "@/scripts/Map.vue";
+import confetti from "canvas-confetti";
+import {useRouter} from "vue-router";
+import axios from "axios";
+import BikeStation from "@/scripts/secure/BikeStation";
 
-  const showMessage = ref(false);
-  const showUserModal = ref(false);
-  const showModal = ref(false);
+const showMessage = ref(false);
+const showUserModal = ref(false);
+const showModal = ref(false);
 
-  const user = ref({
-  name: "John Doe",
-  email: "john.doe@example.com",
-  registrationDate: new Date(), // Example: use actual data here
-  stats: {
-    numberOfRides: 100,
-    totalDistance: 1500,
-    totalTime: 75,
-    currentPoints: 2000,
-    level: {
-      title: "Journeyman",
-    },
-  },
+
+const router = useRouter();
+
+
+
+onMounted( async () =>{
+	await fetchUserData(); 
+	await fetchBusStops();
+} );
+
+
+async function fetchUserData(){
+	try {
+		const idWrap = router.currentRoute.value.params;
+		if (idWrap.id){
+			const response = await axios.get(`/User/GetUserWithStats?Id=${idWrap.id}`);
+			if (response.data) {
+				const data = response.data;
+				user.value = { name: data.name, email: data.email, registrationDate: new Date(data.registrationDate), stats: data.stats};
+			}
+		}
+	}
+	catch (error) {
+		console.error("Failed to fetch user data:", error);
+	}
+}
+
+
+function openBikeStationWindow(name: string){
+	console.log("Emitted id" + name);
+	showModal.value = true;
+}
+
+async function fetchBusStops(){
+	try {
+		const response = await axios.get(`/BikeStations`);
+		if (response.data) {
+			console.log(response.data.$values);
+			const data = response.data.$values;
+			bikeStations.value = data.map(e => new BikeStation(e.Lat, e.Lon, e.BikeStationDocks, e.TotalDocks, e.AvailableDocks, e.StationName, e.StationId));
+		}
+	}
+	catch (error) {
+		console.error("Failed to fetch busStops data:", error);
+	}
+}
+
+
+
+const user = ref({
+	name: "John Doe",
+	email: "john.doe@example.com",
+	registrationDate: new Date(), // Example: use actual data here
+	stats: {
+		numberOfRides: 100,
+		totalDistance: 1500,
+		totalTime: 75,
+		currentPoints: 2000,
+		evaluationTotal: 52,
+		level: {
+			title: "Journeyman",
+			requiredPoints: 0
+		},
+	},
 });
+
+const bikeStations = ref<BikeStation>();
 
 // Example filter for formatting dates, adjust as needed
 const formatDate = (value) => {
-  if (!value) {
-return "";
-}
-  const date = new Date(value);
-  return date.toLocaleDateString();
+	if (!value) {
+		return "";
+	}
+	const date = new Date(value);
+	return date.toLocaleDateString();
 };
 
 
-  interface Div {
-    id: number;
-    name: string;
-    selected: boolean;
-  }
+interface Div {
+	id: number;
+	name: string;
+	selected: boolean;
+}
 
-  const divs = ref<Div[]>([
-    { id: 1, name: '<i class="fa-solid fa-square-parking"></i>', selected: false },
-    { id: 2, name: '<i class="fa-solid fa-square-parking"></i>', selected: false },
-    { id: 3, name: '<i class="fa-solid fa-square-parking"></i>', selected: true },
-    { id: 4, name: '<i class="fa-solid fa-square-parking"></i>', selected: false },
-  ]);
+const divs = ref<Div[]>([
+	{ id: 1, name: '<i class="fa-solid fa-square-parking"></i>', selected: false },
+	{ id: 2, name: '<i class="fa-solid fa-square-parking"></i>', selected: false },
+	{ id: 3, name: '<i class="fa-solid fa-square-parking"></i>', selected: true },
+	{ id: 4, name: '<i class="fa-solid fa-square-parking"></i>', selected: false },
+]);
 
-  const toggleSelection = (id: number) => {
-    const div = divs.value.find(d => d.id === id);
-    if (div) {
-      div.selected = !div.selected;
-    }
-  };
+const toggleSelection = (id: number) => {
+	const div = divs.value.find(d => d.id === id);
+	if (div) {
+		div.selected = !div.selected;
+	}
+};
 
-  const launchConfetti = () => {
-    showMessage.value = true;
+const launchConfetti = () => {
+	showMessage.value = true;
 
-    confetti({
-      particleCount: 100,
-      spread: 70,
-      origin: { y: 0.5 },
-    });
+	confetti({
+		particleCount: 100,
+		spread: 70,
+		origin: { y: 0.5 },
+	});
 
-    setTimeout(() => {
-      showMessage.value = false;
-    }, 1000);
+	setTimeout(() => {
+		showMessage.value = false;
+	}, 1000);
 
-    setTimeout(() => {
-      confetti({
-        particleCount: 200,
-        spread: 220,
-        origin: { y: 0.5 },
-      });
-    }, 500);
-  };
-  </script>
+	setTimeout(() => {
+		confetti({
+			particleCount: 200,
+			spread: 220,
+			origin: { y: 0.5 },
+		});
+	}, 500);
+};
+</script>  

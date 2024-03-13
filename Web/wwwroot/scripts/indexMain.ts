@@ -12,7 +12,7 @@ import Login from "@/scripts/Login.vue";
 const routes : RouteRecordRaw[] = [
 	{ path: "/:pathMatch(.*)", component: NotFound },
 	{ path: "/", component: Index },
-	{ path: "/main", component: Main},
+	{ path: "/main/:id", component: Main},
 	{ path: "/login", component: Login}
 ];
 

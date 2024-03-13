@@ -82,12 +82,19 @@ public class UserController : ControllerBase
 		    return StatusCode(500);
 	    }
 
-	    await this.RegisterUserWithStrava( clientId, clientSecret, code);
-	    return Ok();
+	    var result = await this.RegisterUserWithStrava( clientId, clientSecret, code);
+
+	    if (result == null)
+	    {
+		    return StatusCode(500);
+	    }
+
+		string frontendMainPageURL = $"http://localhost:5291/#/main/{result.Id}";
+	    return Redirect(frontendMainPageURL);
     }
 
     [HttpPost("RegisterUserWithStrava")]
-    public async Task<IActionResult> RegisterUserWithStrava(string clientId, string clientSecret, string authorizationCode)
+    public async Task<User?> RegisterUserWithStrava(string clientId, string clientSecret, string authorizationCode)
     {
 	    using (var httpClient = new HttpClient())
 	    {
@@ -131,15 +138,15 @@ public class UserController : ControllerBase
 
 			    if (foundUser == null)
 			    {
-				    return StatusCode(500);
+				    return null;
 			    }
 
 			    foundUser.Stats = await _userStatsRepository.FetchAndUpdateStravaStats(foundUser);
 
-			    return Ok(foundUser);
+			    return foundUser;
 		    }
 
-		    return StatusCode(500);
+		    return null;
 	    }
     }
     private (string name, long id, string accessToken, string refreshToken, DateTime expires_at)
